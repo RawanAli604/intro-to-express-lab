@@ -70,7 +70,9 @@ if(num <= collectibles.length-1 && num>=0){
     } else if (type){
         filtered = shoes.filter(shoe => shoe.type === type.toLowerCase());
         
-    } 
+    } else {
+        filtered = shoes;
+    }
         res.send(filtered);
     
 });
