@@ -17,9 +17,11 @@ app.get('/greetings', (req, res) => {
 
 //exercise 2
 app.get('/roll/:number', (req, res) => {
-const number = req.params.number;
-if(number >= 0){
-    const random = Math.ceil(Math.random()* number);
+    //convert the string into an integer
+const number = parseInt(req.params.number,10);
+// check if it's a positive number and not a text
+if(number >= 0 && !isNaN(number)){
+    const random = Math.floor(Math.random()* (number+1));
     res.send(`<h1> You rolled a ${random}!`);
 } else {
     res.send('<h1> You must specify a number </h1>')
@@ -56,25 +58,21 @@ if(num <= collectibles.length-1 && num>=0){
   ];
 
     app.get('/shoes', (req, res) =>{
-
-    let minPrice = req.query.minPrice;
-    let maxPrice = req.query.maxPrice;
-    let type = req.query.type;
+    
+    let filtered = shoes;
+    let {minPrice, maxPrice, type } = req.query;
 
     if(minPrice){
-        filtered = shoes.filter(shoe => shoe.price >= Number(minPrice));
-        
-    } else if (maxPrice) {
-        filtered = shoes.filter(shoe => shoe.price <= Number(maxPrice));
-        
-    } else if (type){
-        filtered = shoes.filter(shoe => shoe.type === type.toLowerCase());
-        
-    } else {
-        filtered = shoes;
+        filtered = filtered.filter(shoe => shoe.price >= Number(minPrice));
+    } 
+    if (maxPrice) {
+        filtered = filtered.filter(shoe => shoe.price <= Number(maxPrice));
     }
+    if (type){
+        filtered = filtered.filter(shoe => shoe.type === type.toLowerCase());
+    } 
         res.send(filtered);
-    
+
 });
 
 app.get
